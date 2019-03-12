@@ -1,12 +1,13 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"go.etcd.io/etcd/clientv3"
-	"context"
 	"log"
 	"net/http"
+	"spiderman-agent/common/model"
 	dis "spiderman-center/discovery"
 	"time"
 )
@@ -28,10 +29,39 @@ func main() {
 	}()
 
 	resp, _ := m.Client.Get(context.Background(), m.Path, clientv3.WithPrefix())
-	for _,v := range resp.Kvs {
+	key := ""
+	value := ""
+	for _, v := range resp.Kvs {
 		fmt.Println(string(v.Key))
+		key = string(v.Key)
 		fmt.Println(string(v.Value))
+		value = string(v.Value)
 	}
+
+	time.Sleep(20 * time.Second)
+	fmt.Println("<><>")
+
+	var info dis.ServiceInfo
+	json.Unmarshal([]byte(value), &info)
+	task := &model.TaskInfo{
+		TaskId:   "123123",
+		TaskName: "name",
+	}
+
+	taskMap := make(map[string]*model.TaskInfo, 0)
+	taskMap["id"] = task
+	info.TaskMap = taskMap
+
+	body, _ := json.Marshal(&info)
+
+	re, err := m.Client.Grant(context.TODO(), 5)
+	if err != nil {
+		return
+	}
+	fmt.Println(key)
+	fmt.Println(string(body))
+	m.Client.Put(context.Background(), key, string(body), clientv3.WithLease(re.ID))
+
 
 	for {
 		for k, v := range m.Nodes {

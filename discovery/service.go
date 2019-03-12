@@ -7,12 +7,18 @@ import (
 	"log"
 	"encoding/json"
 	"errors"
+	"spiderman-agent/common/health"
+	"spiderman-agent/common/model"
 )
 
 //the detail of service
-type ServiceInfo struct{
-	IP   string
+type ServiceInfo struct {
+	IP          string
+	Name        string
+	MachineInfo *health.MachineHealth
+	TaskMap     map[string]*model.TaskInfo
 }
+
 
 type Service struct {
 	Name		string
