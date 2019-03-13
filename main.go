@@ -38,22 +38,24 @@ func main() {
 		value = string(v.Value)
 	}
 
-	time.Sleep(20 * time.Second)
+	time.Sleep(10 * time.Second)
 	fmt.Println("<><>")
 
 	var info dis.ServiceInfo
 	json.Unmarshal([]byte(value), &info)
 	task := &model.TaskInfo{
-		TaskId:   "123123",
-		TaskName: "name",
+		TaskId:   "task1",
+		TaskName: "任务1",
 	}
 
 	taskMap := make(map[string]*model.TaskInfo, 0)
-	taskMap["id"] = task
+	taskMap["task1"] = task
 	info.TaskMap = taskMap
 
 	body, _ := json.Marshal(&info)
 
+	fmt.Println(key)
+	fmt.Println(string(body))
 	re, err := m.Client.Grant(context.TODO(), 5)
 	if err != nil {
 		return
