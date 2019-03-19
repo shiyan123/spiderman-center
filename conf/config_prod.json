@@ -1,0 +1,12 @@
+{
+  "server": {
+    "address": "",
+    "port": 10082,
+    "clientTTL":20
+  },
+  "etcdServer":{
+    "urls":["10.163.50.179", "10.163.69.200", "10.163.87.47"],
+    "port":2379,
+    "path":"services"
+  }
+}
