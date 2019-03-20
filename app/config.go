@@ -8,6 +8,7 @@ import (
 type Config struct {
 	Server     *ServerConfig
 	EtcdServer *EtcdServerConfig
+	MongoDB    *MongoDBConfig
 }
 
 type ServerConfig struct {
@@ -20,6 +21,11 @@ type EtcdServerConfig struct {
 	Urls []string
 	Port int
 	Path string
+}
+
+type MongoDBConfig struct {
+	URL    string
+	DbName string
 }
 
 func LoadConfig(configPath string) (*Config, error) {

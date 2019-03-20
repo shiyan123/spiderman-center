@@ -8,6 +8,7 @@ import (
 )
 
 type Application struct {
+	Database   *Database
 	ProcParams *ProcParams
 	Config     *Config
 }
@@ -58,4 +59,9 @@ func (a *Application) initParams() error {
 
 	a.ProcParams = params
 	return nil
+}
+
+func (a *Application) initDB(config *Config) (err error) {
+	a.Database, err = newDatabase(config)
+	return
 }

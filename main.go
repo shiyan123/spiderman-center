@@ -4,6 +4,7 @@ import (
 	"log"
 	"spiderman-center/app"
 
+	"errors"
 	"spiderman-center/service"
 )
 
@@ -12,9 +13,9 @@ func main() {
 	if err := app.GetApp().Prepare(); err != nil {
 		panic(err)
 	}
-	s, err := service.DisCoveryService()
-	if err != nil {
-		panic(err)
+	s := service.GetService()
+	if s == nil {
+		panic(errors.New("service is error"))
 	}
 	go service.MonitorNodes(s)
 

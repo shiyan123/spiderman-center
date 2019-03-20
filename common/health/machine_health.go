@@ -7,11 +7,11 @@ import (
 )
 
 type MachineHealth struct {
-	MemTotal int
-	MemFree  int
-	MemUsed  int
-	Usage    float64
-	CPUUsed  float64
+	MemTotal int     `json:"memTotal"`
+	MemFree  int     `json:"memFree"`
+	MemUsed  int     `json:"memUsed"`
+	Usage    float64 `json:"usage"`
+	CPUUsed  float64 `json:"cpuUsed"`
 }
 
 func GetMachineHealth() (*MachineHealth, error) {

@@ -3,10 +3,12 @@ package service
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"go.etcd.io/etcd/clientv3"
 	"spiderman-center/app"
 	"spiderman-center/common/model"
+	"sync"
 	"time"
 )
 
@@ -17,14 +19,30 @@ type Service struct {
 	clientTTL    int64
 }
 
-func DisCoveryService() (*Service, error) {
+var (
+	serviceOnce sync.Once
+	service     *Service
+)
+
+func GetService() *Service {
+	serviceOnce.Do(func() {
+		service = disCoveryService()
+		if service == nil {
+			panic(errors.New("service is error"))
+		}
+	})
+
+	return service
+}
+
+func disCoveryService() *Service {
 	cli, err := clientv3.New(clientv3.Config{
 		Endpoints:   genServerIps(),
 		DialTimeout: 2 * time.Second,
 	})
 
 	if err != nil {
-		return nil, err
+		return nil
 	}
 
 	s := &Service{
@@ -36,9 +54,9 @@ func DisCoveryService() (*Service, error) {
 
 	err = s.getRunningGroup()
 	if err != nil {
-		return nil, err
+		return nil
 	}
-	return s, nil
+	return s
 }
 
 // loading running group
@@ -65,6 +83,10 @@ func (s *Service) node(key, value string) *model.Node {
 		return nil
 	}
 	return &n
+}
+
+func (s *Service) TestService() string {
+	return "asdasd"
 }
 
 func genServerIps() (ips []string) {

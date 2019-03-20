@@ -14,5 +14,6 @@ func NewV1Router() *V1Router {
 
 func (r *V1Router) init() *V1Router {
 	r.Register("/etcd", NewEtcdRouter())
+	r.Register("/task", NewTaskRouter())
 	return r
 }
