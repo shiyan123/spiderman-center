@@ -2,7 +2,7 @@ package app
 
 import (
 	"fmt"
-	"marvel.sy/common/db"
+	"github.com/shiyan123/marvel.sy/common/db"
 )
 
 type Database struct {
