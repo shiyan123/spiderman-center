@@ -18,5 +18,6 @@ func (r *TaskRouter) Load(group *gin.RouterGroup) {
 }
 
 func (r *TaskRouter) addHandler(c *gin.Context) {
+
 	c.JSON(200, "test")
 }

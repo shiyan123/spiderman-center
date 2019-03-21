@@ -19,3 +19,4 @@ type TaskConfig struct {
 	Status          int    `json:"status"`          //运行状态
 	Retry           int    `json:"retry"`           //重试次数
 }
+
