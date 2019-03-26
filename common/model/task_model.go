@@ -1,9 +1,10 @@
 package model
 
 type TaskInfo struct {
-	TaskId   string      `json:"taskId"`
-	TaskName string      `json:"taskName"`
-	Config   *TaskConfig `json:"config"`
+	TaskId    string      `json:"taskId"`
+	TaskName  string      `json:"taskName"`
+	GroupName string      `json:"groupName"`
+	Config    *TaskConfig `json:"config"`
 }
 
 type TaskConfig struct {
@@ -19,4 +20,3 @@ type TaskConfig struct {
 	Status          int    `json:"status"`          //运行状态
 	Retry           int    `json:"retry"`           //重试次数
 }
-

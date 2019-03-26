@@ -15,8 +15,8 @@ import (
 type Service struct {
 	Path         string
 	RunningGroup map[string][]*model.Node
-	client       *clientv3.Client
-	clientTTL    int64
+	Client       *clientv3.Client
+	ClientTTL    int64
 }
 
 var (
@@ -48,8 +48,8 @@ func disCoveryService() *Service {
 	s := &Service{
 		Path:         app.GetApp().Config.EtcdServer.Path,
 		RunningGroup: make(map[string][]*model.Node, 0),
-		client:       cli,
-		clientTTL:    app.GetApp().Config.Server.ClientTTL,
+		Client:       cli,
+		ClientTTL:    app.GetApp().Config.Server.ClientTTL,
 	}
 
 	err = s.getRunningGroup()
@@ -61,7 +61,7 @@ func disCoveryService() *Service {
 
 // loading running group
 func (s *Service) getRunningGroup() (err error) {
-	resp, err := s.client.Get(context.Background(), s.Path, clientv3.WithPrefix())
+	resp, err := s.Client.Get(context.Background(), s.Path, clientv3.WithPrefix())
 	if err != nil {
 		return
 	}

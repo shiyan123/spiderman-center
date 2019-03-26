@@ -180,11 +180,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:e18d76e3805afdea8ce0478df357713eb94d72a6a23da9ea18b95291999971c8"
+  digest = "1:d78e226d25cc2f176d7603b5006e93f6c8f1385fa464e2d8e652c25b65906f56"
   name = "github.com/remyoudompheng/bigfft"
   packages = ["."]
   pruneopts = "UT"
-  revision = "52369c62f4463a21c8ff8531194c5526322b8521"
+  revision = "2f0d2b0e0001de06353cbb0b73aa00072ecf879a"
 
 [[projects]]
   digest = "1:50156b37ce28d261f1c43750e8e1e427e1443c3a95d6d39a3e34e49bb7175c8c"
@@ -207,7 +207,7 @@
     "common/util",
   ]
   pruneopts = "UT"
-  revision = "52ee5df4458da97df11e51645a3543d4f5c7a1cc"
+  revision = "988fc1515a142f11f3fea3f75f3fc77ac9eaa5ec"
 
 [[projects]]
   digest = "1:4887e9e89c80299aa520d718239809fdd2a47a9aa394909b169959bfbc424ddf"
@@ -243,14 +243,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:1aa109187d52894bd8929a34a0a483ea4e57d7e32e86d81c64cea84c1978d68e"
+  digest = "1:012ffea19e0c7f3bf69652ba71b42c8ffa9929ad53f8a1d50534b279cfd7a34f"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "6c81ef8f67ca3f42fc9cd71dfbd5f35b0c4b5771"
+  revision = "f7bb7a8bee54210937e93ec56d007d892c1f0580"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"

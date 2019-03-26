@@ -7,7 +7,7 @@ import (
 )
 
 func MonitorNodes(s *Service) {
-	rch := s.client.Watch(context.Background(), s.Path, clientv3.WithPrefix())
+	rch := s.Client.Watch(context.Background(), s.Path, clientv3.WithPrefix())
 	for wresp := range rch {
 		for _, ev := range wresp.Events {
 			switch ev.Type {

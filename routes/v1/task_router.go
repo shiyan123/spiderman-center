@@ -3,6 +3,12 @@ package v1
 import (
 	"github.com/gin-gonic/gin"
 	"spiderman-center/common/routes/base"
+	"spiderman-center/common/model"
+	"github.com/shiyan123/marvel.sy/common/rd"
+
+	"github.com/shiyan123/marvel.sy/common/errors"
+	"net/http"
+	"spiderman-center/service/api"
 )
 
 type TaskRouter struct {
@@ -18,6 +24,11 @@ func (r *TaskRouter) Load(group *gin.RouterGroup) {
 }
 
 func (r *TaskRouter) addHandler(c *gin.Context) {
-
-	c.JSON(200, "test")
+	var req model.TaskInfo
+	if err := c.ShouldBindJSON(&req);err !=nil{
+		c.JSON(http.StatusOK, errors.ErrInvalidParams)
+		return
+	}
+	api.GetTaskService().SendTask(&req)
+	c.JSON(http.StatusOK, rd.Data("success"))
 }
