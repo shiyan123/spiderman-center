@@ -29,6 +29,6 @@ func (r *TaskRouter) addHandler(c *gin.Context) {
 		c.JSON(http.StatusOK, errors.ErrInvalidParams)
 		return
 	}
-	api.GetTaskService().SendTask(&req)
+	api.GetTaskService().Scheduling(&req)
 	c.JSON(http.StatusOK, rd.Data("success"))
 }

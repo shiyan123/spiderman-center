@@ -1,13 +1,10 @@
 package api
 
 import (
-	"sync"
+	"fmt"
 	"spiderman-center/common/model"
 	"spiderman-center/service"
-	"fmt"
-	"go.etcd.io/etcd/clientv3"
-	"context"
-	"encoding/json"
+	"sync"
 )
 
 type TaskService struct {
@@ -15,7 +12,7 @@ type TaskService struct {
 
 var (
 	serviceOnce sync.Once
-	serviceT     *TaskService
+	serviceT    *TaskService
 )
 
 func GetTaskService() *TaskService {
@@ -30,28 +27,38 @@ func (s *TaskService) init() {
 
 }
 
-func (s *TaskService) SendTask(t *model.TaskInfo){
+func (s *TaskService) Scheduling(t *model.TaskInfo) {
 
+	var nodes []*model.Node
 	group := service.GetService().RunningGroup
-	//todo 调度算法
-	id := ""
-	var node *model.Node
-	for k, v := range group{
+	for k, v := range group {
 		if k == t.GroupName {
-			for m := range v {
-				group[k][m].TaskMap[t.TaskName] = t
-				node = group[k][m]
-				id = group[k][m].ID
-				break
-			}
+			fmt.Sprintf("分组名:%s  节点数量:%d \n", k, len(v))
+			nodes = v
+			break
 		}
 	}
 
-	key := fmt.Sprintf("services/%s/%s", t.GroupName, id)
-	re, err := service.GetService().Client.Grant(context.TODO(), 5)
-	if err != nil {
-		return
+	for _, v := range nodes {
+		if _, ok := v.TaskMap[t.TaskId]; ok {
+			fmt.Println("任务已经存在")
+			return
+		} else {
+			//todo 开始调度
+			if !s.scheduling(v, t) {
+				continue
+			}
+			//调度完成并发送
+			err := service.GetService().PutNode(t.GroupName, v.ID, v)
+			if err != nil {
+				return
+			}
+			return
+		}
 	}
-	body, _ := json.Marshal(node)
-	service.GetService().Client.Put(context.Background(), key, string(body), clientv3.WithLease(re.ID))
+	return
+}
+
+func (s *TaskService) scheduling(node *model.Node, t *model.TaskInfo) bool {
+	return true
 }

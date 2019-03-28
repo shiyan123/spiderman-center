@@ -10,6 +10,7 @@ import (
 	"spiderman-center/common/model"
 	"sync"
 	"time"
+	"spiderman-center/common/helper"
 )
 
 type Service struct {
@@ -37,7 +38,7 @@ func GetService() *Service {
 
 func disCoveryService() *Service {
 	cli, err := clientv3.New(clientv3.Config{
-		Endpoints:   genServerIps(),
+		Endpoints:   helper.GenServerIps(),
 		DialTimeout: 2 * time.Second,
 	})
 
@@ -85,15 +86,21 @@ func (s *Service) node(key, value string) *model.Node {
 	return &n
 }
 
-func (s *Service) TestService() string {
-	return "asdasd"
-}
-
-func genServerIps() (ips []string) {
-	for _, v := range app.GetApp().Config.EtcdServer.Urls {
-		ip := fmt.Sprintf("http://%s:%d",
-			v, app.GetApp().Config.EtcdServer.Port)
-		ips = append(ips, ip)
+func (s *Service) PutNode(groupName, id string, node *model.Node)(err error){
+	key := fmt.Sprintf("%s/%s/%s", s.Path, groupName, id)
+	re, err := s.Client.Grant(context.TODO(), 5)
+	if err != nil {
+		return
 	}
+	body, err := json.Marshal(node)
+	if err != nil {
+		return
+	}
+
+	resp, err := s.Client.Put(context.Background(), key, string(body), clientv3.WithLease(re.ID))
+	if err != nil {
+		return
+	}
+	fmt.Println(resp)
 	return
 }
